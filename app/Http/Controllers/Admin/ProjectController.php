@@ -35,7 +35,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-       $projects = Project::paginate(5);
+       $projects = Project::paginate(10);
        return view('admin.projects.index', compact('projects'));
     }
 
@@ -65,7 +65,7 @@ class ProjectController extends Controller
         // salvare i dati se corretti
         $newProject = new Project();
         $newProject->title          = $data['title'];
-        $newProject->technology_id  = $data["technology_id"];
+        // $newProject->technology_id  = $data["technology_id"];
         $newProject->type_id        = $data['type_id'];
         $newProject->url_image      = $data['url_image'];
         $newProject->repo           = $data['repo'];

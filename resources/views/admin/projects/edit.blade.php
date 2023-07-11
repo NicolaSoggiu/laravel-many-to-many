@@ -33,6 +33,23 @@
             </div>
             </div>
 
+            <div class="mt-3">
+                <h5>Technologies : </h5>
+            @foreach ($technologies as $technology)
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="{{$technology->id}}" id="technology-{{$technology->id}}" name="technologies[]"  @if (in_array($technology->id, old('technologies', [])))
+                        checked  
+                    @endif >
+                    <label class="form-check-label" for="flexCheckDefault">
+                      {{$technology->name}}
+                    </label>
+                </div>
+                @endforeach
+                <div class="invalid-feedback">
+                    @error('type_id') {{ $message }} @enderror
+                </div>
+            </div>
+
         <div class="mb-3">
             <label for="url_image" class="form-label">Image : </label>
             <input 

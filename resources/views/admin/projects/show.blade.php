@@ -5,6 +5,7 @@
         <h1 class="text-center py-3">Title : {{$project->title}}</h1>
         <h2 class="text-center py-3"> Repo name : {{$project->repo}}</h2>
         <h5>Type : {{$project->type->name}} </h5>
+        <h5>Technologies : {{ implode(', ', $project->technologies->pluck('name')->all()) }}</h5>
         <h5 class="py-4">Languages : {{$project->languages}}</h5>
         <h4>Description :  </h4>
         <p>"{{$project->description}}"</p>
