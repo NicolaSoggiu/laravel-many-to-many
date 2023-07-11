@@ -19,6 +19,7 @@
             <th scope="col">Image</th>
             <th scope="col">Languages</th>
             <th scope="col">Type</th>
+            <th scope="col">Technologies</th>
             <th scope="col">Description</th>
             <th scope="col">Actions</th>
         </tr>
@@ -31,6 +32,7 @@
                 <td>{{ $project->url_image }}</td>
                 <td>{{ $project->languages }}</td>
                 <td><a href="{{ route("admin.types.show", ["type" => $project->type]) }}">{{ $project->type->name }}</a></td>
+                <td>{{ implode(', ', $project->technologies->pluck('name')->all()) }}</td>
                 <td>{{ $project->description }}</td>
                 <td>
                     <div class="d-flex">

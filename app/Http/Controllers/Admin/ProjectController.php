@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Type;
 use App\Models\Project;
+use App\Models\Technology;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -34,7 +35,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-       $projects = Project::paginate(10);
+       $projects = Project::paginate(5);
        return view('admin.projects.index', compact('projects'));
     }
 
@@ -46,7 +47,8 @@ class ProjectController extends Controller
     public function create()
     {
         $types = Type::all();
-        return view('admin.projects.create', compact('types'));
+        $technologies = Technology::all();
+        return view('admin.projects.create', compact('types', "technologies"));
     }
 
     /**
@@ -63,12 +65,15 @@ class ProjectController extends Controller
         // salvare i dati se corretti
         $newProject = new Project();
         $newProject->title          = $data['title'];
+        $newProject->technology_id  = $data["technology_id"];
         $newProject->type_id        = $data['type_id'];
         $newProject->url_image      = $data['url_image'];
         $newProject->repo           = $data['repo'];
         $newProject->languages      = $data['languages'];
         $newProject->description    = $data['description'];
         $newProject->save();
+
+        $newProject->technologies()->sync($data["technologies"] ?? []);
 
 
         // ridirezionare su una rotta di tipo get
@@ -96,7 +101,8 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         $types = Type::all();
-        return view('admin.projects.edit', compact('project', 'types'));
+        $technologies = Technology::all();
+        return view('admin.projects.edit', compact('project', 'types', "technologies"));
     }
 
     /**
@@ -120,6 +126,7 @@ class ProjectController extends Controller
         $project->description = $data['description'];
         $project->update();
 
+        $project->technologies()->sync($data["technologies"] ?? []);
 
         // ridirezionare su una rotta di tipo get
         return to_route('admin.projects.show', ['project' => $project]);
@@ -133,31 +140,33 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
+
+        $project->technologies()->detach();
         $project->delete();
         return to_route('admin.projects.index')->with('delete_success', $project);
     }
 
-    public function restore($id)
-    {
-        Project::withTrashed()->where('id', $id)->restore();
+    // public function restore($id)
+    // {
+    //     Project::withTrashed()->where('id', $id)->restore();
 
-        $project = Project::find($id);
+    //     $project = Project::find($id);
 
-        return to_route('admin.projects.index')->with('restore_success', $project);
-    }
+    //     return to_route('admin.projects.index')->with('restore_success', $project);
+    // }
 
-    public function trashed()
-    {
-        $trashedProjects = Project::onlyTrashed()->paginate(6);
+    // public function trashed()
+    // {
+    //     $trashedProjects = Project::onlyTrashed()->paginate(6);
 
-        return view('admin.projects.trashed', compact('trashedProjects'));
-    }
+    //     return view('admin.projects.trashed', compact('trashedProjects'));
+    // }
 
-    public function harddelete($id)
-    {
-        $project = Project::withTrashed()->find($id);
-        $project->forceDelete();
+    // public function harddelete($id)
+    // {
+    //     $project = Project::withTrashed()->find($id);
+    //     $project->forceDelete();
 
-        return to_route('admin.projects.trashed')->with('delete_success', $project);
-    }
+    //     return to_route('admin.projects.trashed')->with('delete_success', $project);
+    // }
 }
