@@ -17,13 +17,11 @@ class ProjectsTableSeeder extends Seeder
      */
     public function run(Faker $faker)
     {
-        $types = Type::all()->pluck("id");
-        $technologies = Technology::all();
-
-
-        for($i = 0; $i < 50; $i++){
+        for ($i = 0; $i < 50; $i++) {
+            $types = Type::all();
+            $technologies = Technology::all()->pluck('id');
             $project = Project::create([
-                'technology_id' => $faker->randomElement($technologies)->id,
+                'type_id' => $faker->randomElement($types)->id,
                 'title' => $faker->sentence(),
                 'url_image'=> $faker->imageUrl(640, 480, 'animals', true),
                 'repo'=>  $faker->word(),
@@ -31,7 +29,7 @@ class ProjectsTableSeeder extends Seeder
                 'description'=> $faker->paragraph(),
             ]);
 
-            $project->types()->sync($faker->randomElements($types, null));
+            $project->technologies()->sync($faker->randomElements($technologies, rand(1, 4)));
         }
     }
 }

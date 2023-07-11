@@ -7,7 +7,7 @@ use App\Models\Technology;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-class TechnologiesTableSeeder extends Seeder
+class ProjectTechnologySeeder extends Seeder
 {
     /**
      * Run the database seeds.
