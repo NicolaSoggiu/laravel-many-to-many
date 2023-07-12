@@ -65,6 +65,7 @@ class ProjectController extends Controller
         // salvare i dati se corretti
         $newProject = new Project();
         $newProject->title          = $data['title'];
+        // $newProject->slug           = Project::slugger($data["title"]);
         // $newProject->technology_id  = $data["technology_id"];
         $newProject->type_id        = $data['type_id'];
         $newProject->url_image      = $data['url_image'];
@@ -77,7 +78,7 @@ class ProjectController extends Controller
 
 
         // ridirezionare su una rotta di tipo get
-        return to_route('admin.projects.show', ['project' => $newProject]);
+        return to_route('admin.projects.show', ['project' => $newProject->id]);
     }
 
     /**
@@ -129,7 +130,7 @@ class ProjectController extends Controller
         $project->technologies()->sync($data["technologies"] ?? []);
 
         // ridirezionare su una rotta di tipo get
-        return to_route('admin.projects.show', ['project' => $project]);
+        return to_route('admin.projects.show', ['project' => $project->id]);
     }
 
     /**
@@ -141,32 +142,42 @@ class ProjectController extends Controller
     public function destroy(Project $project)
     {
 
-        $project->technologies()->detach();
         $project->delete();
         return to_route('admin.projects.index')->with('delete_success', $project);
     }
 
-    // public function restore($id)
-    // {
-    //     Project::withTrashed()->where('id', $id)->restore();
+    public function restore($id)
+    {
+        Project::withTrashed()->where('id', $id)->restore();
 
-    //     $project = Project::find($id);
+        $project = Project::find($id);
 
-    //     return to_route('admin.projects.index')->with('restore_success', $project);
-    // }
+        return to_route('admin.projects.index')->with('restore_success', $project);
+    }
 
-    // public function trashed()
-    // {
-    //     $trashedProjects = Project::onlyTrashed()->paginate(6);
+    public function cancel($id)
+    {
+        Project::withTrashed()->where('id', $id)->restore();
 
-    //     return view('admin.projects.trashed', compact('trashedProjects'));
-    // }
+        $project = Project::find($id);
 
-    // public function harddelete($id)
-    // {
-    //     $project = Project::withTrashed()->find($id);
-    //     $project->forceDelete();
+        return to_route('admin.project.index')->with('cancel_success', $project);
+    }
 
-    //     return to_route('admin.projects.trashed')->with('delete_success', $project);
-    // }
+    public function trashed()
+    {
+        $trashedProjects = Project::onlyTrashed()->paginate(3);
+
+        return view('admin.projects.trashed', compact('trashedProjects'));
+    }
+
+    public function harddelete($id)
+    {
+        $project = Project::withTrashed()->find($id);
+        $project->technologies()->detach();
+        $project->forceDelete();
+        
+
+        return to_route('admin.projects.trashed')->with('delete_success', $project);
+    }
 }

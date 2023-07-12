@@ -1,13 +1,13 @@
 @extends('admin.layouts.base')
 
 @section('contents')
-    <h1 class="main-title py-3">Edit this project : </h1>
-    <form method="POST" action="{{ route('admin.projects.update', ['project' => $project->id]) }}" novalidate>
+    <h1 class="main-title py-3">Edit this project</h1>
+    <form method="POST" action="{{ route('admin.projects.update', ['project' => $project]) }}" novalidate>
         @csrf
         @method('PUT')
 
         <div class="mb-3">
-            <label for="title" class="form-label">Title : </label>
+            <label for="title" class="form-label">Titolo</label>
             <input
                 type="text"
                 class="form-control @error('title') is-invalid @enderror"
@@ -21,7 +21,7 @@
         </div>
 
         <div class="mb-3">
-            <label for="type" class="form-label">Type : </label>
+            <label for="type" class="form-label">Type</label>
             <select class="form-select" aria-label="Default select example" name="type_id" class="form-control @error('type_id') is-invalid @enderror">
                 <option selected>Choose a type...</option>
                 @foreach($types as $type)
@@ -33,25 +33,8 @@
             </div>
             </div>
 
-            <div class="mt-3">
-                <h5>Technologies : </h5>
-            @foreach ($technologies as $technology)
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="{{$technology->id}}" id="technology-{{$technology->id}}" name="technologies[]"  @if (in_array($technology->id, old('technologies', [])))
-                        checked  
-                    @endif >
-                    <label class="form-check-label" for="flexCheckDefault">
-                      {{$technology->name}}
-                    </label>
-                </div>
-                @endforeach
-                <div class="invalid-feedback">
-                    @error('type_id') {{ $message }} @enderror
-                </div>
-            </div>
-
         <div class="mb-3">
-            <label for="url_image" class="form-label">Image : </label>
+            <label for="url_image" class="form-label">Image</label>
             <input 
                 type="url"
                 class="form-control @error('url_image') is-invalid @enderror"
@@ -65,7 +48,7 @@
         </div>
 
         <div class="mb-3">
-            <label for="repo" class="form-label">Repo name : </label>
+            <label for="repo" class="form-label">Repo repo</label>
             <input
                 type="text"
                 class="form-control @error('repo') is-invalid @enderror"
@@ -79,7 +62,7 @@
         </div>
 
         <div class="mb-3">
-            <label for="languages" class="form-label">Languages : </label>
+            <label for="languages" class="form-label">Languages</label>
             <input
                 type="text"
                 class="form-control @error('languages') is-invalid @enderror"
@@ -94,7 +77,7 @@
 
 
         <div class="mb-3">
-            <label for="description" class="form-label">Description : </label>
+            <label for="description" class="form-label">Description</label>
             <textarea
                 class="form-control @error('description') is-invalid @enderror"
                 id="description"

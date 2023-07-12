@@ -27,6 +27,15 @@
                 <li><a class="dropdown-item" href="{{ route("admin.types.index") }}">Index</a></li>
               </ul>
             </li>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Technology
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{{ route("admin.technologies.index") }}">Index</a></li>
+                <li><a class="dropdown-item" href="{{ route("admin.technologies.create") }}">Add</a></li>
+              </ul>
           </li>
         </ul>
 
