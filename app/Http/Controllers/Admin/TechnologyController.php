@@ -15,7 +15,7 @@ class TechnologyController extends Controller
      */
     public function index()
     {
-       $technologies = Technology::paginate(10);
+       $technologies = Technology::all();
        return view('admin.technologies.index', compact('technologies'));
     }
 
@@ -86,7 +86,7 @@ class TechnologyController extends Controller
         $technology->name          = $data['name'];
         $technology->save(); 
 
-        return redirect()->route('admin.technology.show', ['technology' => $technology]);
+        return redirect()->route('admin.technologies.show', ['technology' => $technology]);
     }
 
     /**
@@ -98,6 +98,6 @@ class TechnologyController extends Controller
     public function destroy(Technology $technology)
     {
         $technology->delete(); 
-        return to_route('admin.technology.index');
+        return to_route('admin.technologies.index');
     }
 }
