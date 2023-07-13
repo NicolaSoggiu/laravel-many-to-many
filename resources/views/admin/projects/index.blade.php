@@ -2,12 +2,15 @@
 
 @section('contents')
 
-<h1>Posts : </h1>
+<h1>Project : </h1>
+<img src="tkHJpu5PYt3wy0p2tsHsrivGFlaOFPEEFc8T5TpL.png" alt="">
+<img src="{{ asset("storage/upload/tkHJpu5PYt3wy0p2tsHsrivGFlaOFPEEFc8T5TpL.png") }}" alt="">
+{{-- <h1>{{ env("MIA_CHIAVE", "fallback") }}</h1> --}}
 
 @if (session('delete_success'))
         @php $project = session('delete_success') @endphp
         <div class="alert alert-danger">
-            The post "{{ $project->title }}" was deleted
+            The project "{{ $project->title }}" was deleted
         </div>
     @endif
 
@@ -33,11 +36,7 @@
                 <td>{{ $project->languages }}</td>
                 <td><a href="{{ route("admin.types.show", ["type" => $project->type]) }}">{{ $project->type->name }}</a></td>
 
-                <td>
-                    @foreach($project->technologies as $technology)
-                        <a href="{{ route("admin.technologies.show", ["technology" => $technology]) }}">{{ $technology->name }}</a> {{!$loop->last ? "," : ""}}
-                    @endforeach
-                </td>
+                <td>{{ implode(', ', $project->technologies->pluck('name')->all()) }}</td>
                 <td>{{ $project->description }}</td>
                 <td>
                     <div class="d-flex">
