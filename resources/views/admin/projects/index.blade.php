@@ -3,9 +3,6 @@
 @section('contents')
 
 <h1>Project : </h1>
-<img src="tkHJpu5PYt3wy0p2tsHsrivGFlaOFPEEFc8T5TpL.png" alt="">
-<img src="{{ asset("storage/upload/tkHJpu5PYt3wy0p2tsHsrivGFlaOFPEEFc8T5TpL.png") }}" alt="">
-{{-- <h1>{{ env("MIA_CHIAVE", "fallback") }}</h1> --}}
 
 @if (session('delete_success'))
         @php $project = session('delete_success') @endphp

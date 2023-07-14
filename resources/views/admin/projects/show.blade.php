@@ -10,9 +10,13 @@
         <h4>Description :  </h4>
         <p>"{{$project->description}}"</p>
         <h4 class="py-3">See the project :</h4>
-        <div class="container d-flex justify-content-center">
+        {{-- <div class="container d-flex justify-content-center">
             <img class="py-3" src="{{$project->url_image}}" alt="">
-        </div>
+        </div> --}}
+        @if ($project->image)
+        <img src="{{ asset('storage/' . $project->image) }}" alt="{{ $project->title }}">
+        @endif
+
 
     <a class="btn btn-primary" href="{{ route("admin.projects.index") }}">Back to Index</a>
 
